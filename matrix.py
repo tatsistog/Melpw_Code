@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import os
-import dataPreProcessing
 import sys
 
 
@@ -11,10 +10,6 @@ def findInput():
     file = files[0]
     filename = file[0:-6]
     filename_txt = filename + '.txt'
-    if not os.path.exists('files/'+filename_txt):
-        data = dataPreProcessing.read_fasta_file('files/' + file)
-        dataPreProcessing.save_results_to_file(data, filename_txt, 'files')
-        del data
 
     path = 'files/' + filename_txt
     return path

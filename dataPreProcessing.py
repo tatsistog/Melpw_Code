@@ -40,3 +40,14 @@ def save_results_to_file(data, name, outputFolder):
     os.chdir(currPath)
     
     return
+
+
+if __name__ == "__main__":
+
+    files = [f for f in os.listdir('files/') if f.endswith('.fasta')]
+    file = files[0]
+    filename = file[0:-6]
+    filename_txt = filename + '.txt'
+    if not os.path.exists('files/'+filename_txt):
+        data = read_fasta_file('files/' + file)
+        save_results_to_file(data, filename_txt, 'files')
