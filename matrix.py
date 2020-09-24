@@ -81,9 +81,3 @@ def count_kmers(id,read,k,counts):
         counts[id][kmer] =int(counts[id][kmer])+ int(1)
         
     return counts
-
-
-if __name__ == "__main__":
-
-    k = int(sys.argv[1])
-    create_matrix(k)
