@@ -7,38 +7,41 @@ import sys
 def findInput():
 
     files = [f for f in os.listdir('files/') if f.endswith('.fasta')]
-    file = files[0]
-    filename = file[0:-6]
-    filename_txt = filename + '.txt'
-
-    path = 'files/' + filename_txt
+    thisfile = files[0]
+    path = 'files/' + thisfile
     return path
 
 
 def create_matrix(best_k):
 
-    filehandle = open(findInput(),"r")
+    fastq_filehandle = open(findInput(), "r")
     # Start with an empty dictionary
     counts = {}
     seq=0
-
-    for row in filehandle:
-        seq=seq+1
-        seq_id="seq_{}".format(seq)
-        counts[seq_id]={}
-        counts =count_kmers(seq_id,row,best_k,counts)
-        
+    # Loop over each line in the file
+    line = ''
+    seq_id="seq_{}".format(seq)
     
+    for row in fastq_filehandle:
+        # Keep the rows with data
+        if ">" not in row:
+            line = line + row.strip()
+        else:
+            if seq != 0:
+                counts = count_kmers(seq_id,line,best_k,counts)
+            seq=seq+1
+            seq_id="seq_{}".format(seq)
+            counts[seq_id]={}
+            line = ''
+    
+    counts = count_kmers(seq_id,line,best_k,counts)
     matrix_data = pd.DataFrame(counts)
-    filehandle.close
-    
+    fastq_filehandle.close
     # Create info file
     info = open("results/matrix-{}.txt".format(best_k),'a') 
     info.write(matrix_data.to_string(na_rep='0'))
     info.close()
-    
     return
-
 
 
 def count_kmers(id,read,k,counts):

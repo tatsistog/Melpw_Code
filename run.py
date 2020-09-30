@@ -3,7 +3,7 @@ import matrix
 
 if __name__ == "__main__":
 
-    exec(open("dataPreProcessing.py").read())
+    #exec(open("dataPreProcessing.py").read())
 
     kmin = int(sys.argv[1])
     kmax = int(sys.argv[2])
